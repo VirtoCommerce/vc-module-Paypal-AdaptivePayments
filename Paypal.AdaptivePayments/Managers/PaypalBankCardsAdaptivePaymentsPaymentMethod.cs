@@ -3,16 +3,13 @@ using PayPal.AdaptivePayments.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Text;
-using System.Web;
 using VirtoCommerce.Domain.Order.Model;
 using VirtoCommerce.Domain.Payment.Model;
-using VirtoCommerce.Domain.Store.Model;
 
 namespace Paypal.AdaptivePayments.Managers
 {
-	public class PaypalAdaptivePaymentsPaymentMethod : VirtoCommerce.Domain.Payment.Model.PaymentMethod
+    public class PaypalAdaptivePaymentsPaymentMethod : VirtoCommerce.Domain.Payment.Model.PaymentMethod
 	{
 		public PaypalAdaptivePaymentsPaymentMethod()
 			: base("Paypal.AdaptivePayments")
