@@ -4,11 +4,11 @@
     <version>2.11.0</version>
     <platformVersion>2.11.0</platformVersion>
     <dependencies>
-        <dependency id="VirtoCommerce.Core" version="2.11.0" />
+        <dependency id="VirtoCommerce.Core" version="2.14.0" />
     </dependencies>
 
-    <title>Paypal Adaptive Payments Module</title>
-    <description>Paypal api adaptive payments integration</description>
+    <title>Paypal Adaptive Payments</title>
+    <description>Paypal Adaptive Payments API integration</description>
     <authors>
         <author>Virto Commerce</author>
     </authors>
@@ -16,7 +16,7 @@
         <owner>Virto Commerce</owner>
     </owners>
     <projectUrl>http://virtocommerce.com/</projectUrl>
-    <iconUrl>Modules/$(Paypal.AdaptivePayments)/Content/paypal_2014_logo.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/VirtoCommerce/vc-module-Paypal-AdaptivePayments/master/Paypal.AdaptivePayments/Content/paypal_2014_logo.png</iconUrl>
     <releaseNotes>First version.</releaseNotes>
     <copyright>Copyright © 2011-2016 Virto Commerce. All rights reserved</copyright>
     <tags>paypal adaptive payments</tags>
@@ -34,39 +34,46 @@
                     <value>Live</value>
                 </allowedValues>
                 <defaultValue>Sandbox</defaultValue>
-                <title>Paypal api mode</title>
-                <description>Type of api working mode (sandbox or live)</description>
+                <title>Working mode</title>
+                <description>Type of working mode (Sandbox or Live)</description>
+            </setting>
+            <setting>
+                <name>Paypal.AdaptivePayments.ReceiverAccountId</name>
+                <valueType>string</valueType>
+                <title>Receiver Account Id</title>
+                <description>Account Id of the money receiver PayPal account holder</description>
             </setting>
             <setting>
                 <name>Paypal.AdaptivePayments.APIUsername</name>
                 <valueType>string</valueType>
-                <title>API username</title>
-                <description>Merchant api username credential</description>
+                <title>API Username</title>
+                <description>Merchant API Username credential</description>
             </setting>
             <setting>
                 <name>Paypal.AdaptivePayments.APIPassword</name>
                 <valueType>string</valueType>
                 <title>API password</title>
-                <description>Merchant api password credential</description>
+                <description>Merchant API password</description>
             </setting>
             <setting>
                 <name>Paypal.AdaptivePayments.APISignature</name>
                 <valueType>string</valueType>
                 <title>API signature</title>
-                <description>Merchant api signature credential</description>
+                <description>Merchant API signature credential</description>
             </setting>
             <setting>
-                <name>Paypal.AdaptivePayments.PaymentRedirectRelativePath</name>
+                <name>Paypal.AdaptivePayments.PaymentCallbackRelativePath</name>
                 <valueType>string</valueType>
-                <defaultValue>checkout/externalpaymentcallback</defaultValue>
-                <title>Redirect relative path</title>
-                <description>Relative path for paypal payment from paypal site to frontend</description>
+                <defaultValue>cart/externalpaymentcallback</defaultValue>
+                <title>Relative callback path</title>
+                <description>Relative URL on Storefront to redirect after approving a payment on paypal.com (cart/externalpaymentcallback by default)</description>
             </setting>
             <setting>
                 <name>Paypal.AdaptivePayments.AppId</name>
                 <valueType>string</valueType>
-                <title>Paypal app id</title>
-                <description>Merchant application id</description>
+                <defaultValue>APP-80W284485P519543T</defaultValue>
+                <title>Paypal AppID</title>
+                <description>Merchant application ID. Use APP-80W284485P519543T for testing.</description>
             </setting>
         </group>
     </settings>
