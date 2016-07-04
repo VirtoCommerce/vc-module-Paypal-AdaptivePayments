@@ -1,14 +1,14 @@
 ﻿using PayPal.AdaptivePayments;
 using PayPal.AdaptivePayments.Model;
 using System.Collections.Generic;
+using System.Text;
 using VirtoCommerce.Domain.Payment.Model;
 using Xunit;
-using System;
-using System.Text;
 using Xunit.Abstractions;
 
 namespace Paypal.AdaptivePayments.UnitTests
 {
+    [Trait("Category", "CI")]
     public class AdaptivePaymentsSDKTests
     {
         private static string PaypalModeConfigSettingName = "mode";
@@ -17,7 +17,7 @@ namespace Paypal.AdaptivePayments.UnitTests
         private static string PaypalSignatureConfigSettingName = "account1.apiSignature";
         private static string PaypalAppIdConfigSettingName = "account1.applicationId";
 
-        // private static string SandboxPaypalBaseUrlFormat = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_ap-payment&paykey={0}";
+        private static string SandboxPaypalBaseUrlFormat = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_ap-payment&paykey={0}";
 
         private static string ReceiverAccountId = "GJT98UNQR7KWC";
         private static string Mode = "sandbox";
@@ -34,14 +34,13 @@ namespace Paypal.AdaptivePayments.UnitTests
             this.output = output;
         }
 
-        [Fact]
+        [Fact]        
         public void Valid_payment_successfull_validation()
         {
             //arrange
             var service = new AdaptivePaymentsService(GetConfigiration());
             var request = CreatePayRequest();
-
-
+            
             //act
             var payResponse = service.Pay(request);
             var setPaymentOptionsResponse = service.SetPaymentOptions(new SetPaymentOptionsRequest { payKey = payResponse.payKey, senderOptions = new SenderOptions { referrerCode = "Virto_SP" }, requestEnvelope = new RequestEnvelope { errorLanguage = "en_US" } });
@@ -53,6 +52,7 @@ namespace Paypal.AdaptivePayments.UnitTests
             // Assert.Equal("", GetErrors(executePaymentResponse.error));
 
             output.WriteLine(payResponse.paymentExecStatus + ". PayKey: " + payResponse.payKey);
+            output.WriteLine("Activate " + string.Format(SandboxPaypalBaseUrlFormat, payResponse.payKey));
         }
 
         private Dictionary<string, string> GetConfigiration()
@@ -97,7 +97,7 @@ namespace Paypal.AdaptivePayments.UnitTests
             {
                 Order = new VirtoCommerce.Domain.Order.Model.CustomerOrder { Id = "dmqkwld3892", Currency = "USD" },
                 Store = new VirtoCommerce.Domain.Store.Model.Store { Url = "http://localhost/storefront/Electronics" },
-                Payment = new VirtoCommerce.Domain.Order.Model.PaymentIn { Sum = 15.51m, Id = "sw0231" }
+                Payment = new VirtoCommerce.Domain.Order.Model.PaymentIn { Sum = 15.51m, Id = "sw0231q" }
             };
 
             return retVal;
