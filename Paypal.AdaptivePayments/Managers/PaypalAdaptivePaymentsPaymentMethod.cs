@@ -8,7 +8,7 @@ using VirtoCommerce.Domain.Payment.Model;
 
 namespace Paypal.AdaptivePayments.Managers
 {
-    public class PaypalAdaptivePaymentsPaymentMethod : VirtoCommerce.Domain.Payment.Model.PaymentMethod
+    public class PaypalAdaptivePaymentsPaymentMethod : PaymentMethod
     {
         public PaypalAdaptivePaymentsPaymentMethod()
             : base("Paypal.AdaptivePayments")
@@ -115,6 +115,7 @@ namespace Paypal.AdaptivePayments.Managers
                 var service = new AdaptivePaymentsService(GetConfiguration());
                 var request = CreatePayRequest(context);
 
+                // submit payment data for redirection to paypal website
                 payResponse = service.Pay(request);
 
                 errorText = GetErrors(payResponse.error);
@@ -135,12 +136,13 @@ namespace Paypal.AdaptivePayments.Managers
                 retVal.OuterId = payResponse.payKey;
                 retVal.IsSuccess = true;
                 retVal.RedirectUrl = string.Format(PaypalBaseUrlFormat, retVal.OuterId);
-                retVal.NewPaymentStatus = PaymentStatus.Pending;
+                retVal.NewPaymentStatus = context.Payment.PaymentStatus = PaymentStatus.Pending;
             }
             else
             {
                 retVal.Error = errorText;
-                retVal.NewPaymentStatus = PaymentStatus.Voided;
+                retVal.NewPaymentStatus = context.Payment.PaymentStatus = PaymentStatus.Voided;
+                // context.Payment.VoidedDate = DateTime.UtcNow;
             }
 
             return retVal;
@@ -160,8 +162,9 @@ namespace Paypal.AdaptivePayments.Managers
 
             if (response.status == "COMPLETED")
             {
-                retVal.IsSuccess = true;
-                retVal.NewPaymentStatus = PaymentStatus.Paid;
+                context.Payment.CapturedDate = DateTime.UtcNow;
+                retVal.IsSuccess = context.Payment.IsApproved = true;
+                retVal.NewPaymentStatus = context.Payment.PaymentStatus = PaymentStatus.Paid;
             }
             else if (response.status == "INCOMPLETE" && response.status == "ERROR" && response.status == "REVERSALERROR")
             {
@@ -179,11 +182,12 @@ namespace Paypal.AdaptivePayments.Managers
                     retVal.ErrorMessage = "payment canceled";
                 }
 
-                retVal.NewPaymentStatus = PaymentStatus.Voided;
+                context.Payment.VoidedDate = DateTime.UtcNow;
+                retVal.NewPaymentStatus = context.Payment.PaymentStatus = PaymentStatus.Voided;
             }
             else
             {
-                retVal.NewPaymentStatus = PaymentStatus.Pending;
+                retVal.NewPaymentStatus = context.Payment.PaymentStatus = PaymentStatus.Pending;
             }
 
             return retVal;
