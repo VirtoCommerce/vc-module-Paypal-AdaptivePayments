@@ -52,13 +52,13 @@
             </setting>
             <setting>
                 <name>Paypal.AdaptivePayments.APIPassword</name>
-                <valueType>string</valueType>
+                <valueType>securestring</valueType>
                 <title>API password</title>
                 <description>Merchant API password</description>
             </setting>
             <setting>
                 <name>Paypal.AdaptivePayments.APISignature</name>
-                <valueType>string</valueType>
+                <valueType>securestring</valueType>
                 <title>API signature</title>
                 <description>Merchant API signature credential</description>
             </setting>
